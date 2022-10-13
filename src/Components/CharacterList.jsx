@@ -1,37 +1,42 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-const CharacterList = ({ coords }) => {
+import CharacterDisplayName from './CharacterDisplayName';
+
+const CharacterList = ({ coords, chars, setChars, clickedCoordinates }) => {
   const { x, y } = coords;
-  //   console.log(x, typeof x);
-  // left =  x /1240x100
-  // top =  y /876 x100
-  //   let topPos;
+
   const leftPos = Math.round((x / 1240) * 100) + '%';
   const topPos = Math.round((y / 876) * 100) + '%';
-  console.log(leftPos);
-
-  //   useEffect(() => {
-  //     return leftPos = ((x / 1240))
-  //     console.log(leftPos);
-  //   }, [x, y]);
 
   const style = {
     top: topPos,
     left: leftPos,
     backgroundColor: 'white',
   };
+
+  const charsList = chars.map((char, index) => {
+    if (!char.found) {
+      return (
+        <CharacterDisplayName
+          key={index}
+          char={char}
+          setChars={setChars}
+          clickedCoordinates={clickedCoordinates}
+        />
+      );
+    } else {
+      return null;
+    }
+  });
+
   return (
     <div className='character-list' style={style}>
       <div className='character-list--header'>
         <p>{`x : ${x} y: ${y}`}</p>
       </div>
       <div className='character-list--chars'>
-        <ul>
-          <li>Character A</li>
-          <li>Character B</li>
-          <li>Character C</li>
-        </ul>
+        <ul>{charsList}</ul>
       </div>
     </div>
   );
@@ -39,6 +44,9 @@ const CharacterList = ({ coords }) => {
 
 CharacterList.propTypes = {
   coords: PropTypes.object.isRequired,
+  chars: PropTypes.array.isRequired,
+  setChars: PropTypes.func.isRequired,
+  clickedCoordinates: PropTypes.object.isRequired,
 };
 
 export default CharacterList;
