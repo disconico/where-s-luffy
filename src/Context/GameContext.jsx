@@ -9,10 +9,17 @@ const GameContext = createContext();
 
 const GameContextProvider = ({ children }) => {
   const [isGameStarted, setIsGameStarted] = useState(false);
+  const [isGameWon, setIsGameWon] = useState(false);
   const [chars, setChars] = useState(imageList.itemList);
   const [positionArr, setPositionArr] = useState([]);
+  const [currentScore, setCurrentScore] = useState(0);
 
   const positionRef = firestore.collection('characterList');
+
+  // const maxScore = positionArr.length;
+  const maxScore = 1;
+  console.log(maxScore, 'max score');
+  console.log(currentScore, 'current score');
 
   useEffect(() => {
     const fetchPosition = async () => {
@@ -22,11 +29,43 @@ const GameContextProvider = ({ children }) => {
     fetchPosition().catch(console.error);
   }, []);
 
-  console.log(positionArr);
+  useEffect(() => {
+    const checkScore = () => {
+      chars.forEach((obj) => {
+        if (obj.found) {
+          setCurrentScore((prevScore) => prevScore + 1);
+        }
+      });
+    };
+    checkScore();
+  }, [chars]);
+
+  useEffect(() => {
+    const checkWin = () => {
+      if (currentScore === maxScore) {
+        setIsGameWon(() => true);
+      }
+    };
+    checkWin();
+  }, [currentScore]);
+
+  useEffect(() => {
+    const setGameEnding = () => {
+      console.log('Game is over!');
+    };
+    setGameEnding();
+  }, [isGameWon]);
 
   return (
     <GameContext.Provider
-      value={{ isGameStarted, setIsGameStarted, chars, setChars, positionArr }}
+      value={{
+        isGameStarted,
+        setIsGameStarted,
+        chars,
+        setChars,
+        positionArr,
+        isGameWon,
+      }}
     >
       {children}
     </GameContext.Provider>

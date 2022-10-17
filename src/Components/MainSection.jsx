@@ -12,13 +12,17 @@ const MainSection = () => {
 
   const { isGameStarted, setIsGameStarted } = useContext(GameContext);
 
+  const handleClick = () => {
+    setIsGameStarted(true);
+  };
+
   return (
     <div className='main-section'>
       <Header />
       {isGameStarted ? (
         <GameImage imageUrl={gameImage.imageUrl} />
       ) : (
-        <button onClick={setIsGameStarted}>Start Game</button>
+        <button onClick={handleClick}>Start Game</button>
       )}
     </div>
   );

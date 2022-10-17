@@ -10,11 +10,6 @@ function useClicked(props = false) {
     setIsClicked(false);
   }
 
-  //   useEffect(() => {
-  //     ref.current.addEventListener('mouseenter', click);
-  //     ref.current.addEventListener('mouseleave', unClick);
-  //   }, []);
-
   return [isClicked, click, unClick];
 }
 

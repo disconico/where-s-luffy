@@ -4,20 +4,32 @@ import PropTypes from 'prop-types';
 import { GameContext } from '../Context/GameContext';
 
 const CharacterDisplayName = ({ char, setChars, clickedCoordinates }) => {
-  const { displayName, found } = char;
+  const { displayName, found, id } = char;
   const { positionArr } = useContext(GameContext);
-  const { xClicked, yClicked } = clickedCoordinates;
+  const { x: xClicked, y: yClicked } = clickedCoordinates;
 
-  // Sortir les coordonées du personnage en question grace à l'id en question(obtenu grace au e.target.className)
-  // Les comparer aux x clicked et y clicked
+  const charIndex = positionArr.map((obj) => obj.id).indexOf(id);
+  const currentCharCoords = positionArr[charIndex];
+  const { leftRange, topRange } = currentCharCoords;
 
-  const checkCoordinates = (e) => {};
+  const checkCoordinates = () => {
+    if (
+      leftRange[0] <= xClicked &&
+      xClicked <= leftRange[1] &&
+      topRange[0] <= yClicked &&
+      yClicked <= topRange[1]
+    ) {
+      updateCharsState();
+    } else {
+      console.log('i am not the one you are looking for');
+    }
+  };
 
-  const updateCharsState = (e) => {
+  const updateCharsState = () => {
     if (!found) {
       setChars((prevState) => {
         const newState = prevState.map((obj) => {
-          if (obj.id === e.target.className) {
+          if (obj.id === id) {
             return { ...obj, found: true };
           }
           return obj;
@@ -28,12 +40,13 @@ const CharacterDisplayName = ({ char, setChars, clickedCoordinates }) => {
   };
 
   const handleClick = (e) => {
-    updateCharsState(e);
+    checkCoordinates();
+    // updateCharsState(e);
   };
 
   return (
     <li onClick={handleClick} className={char.id}>
-      {displayName}
+      {displayName} {found ? '✅' : '❌'}
     </li>
   );
 };
