@@ -15,21 +15,6 @@ const CharacterList = ({ coords, chars, setChars, clickedCoordinates }) => {
     backgroundColor: 'white',
   };
 
-  // const charsList = chars.map((char, index) => {
-  //   if (!char.found) {
-  //     return (
-  //       <CharacterDisplayName
-  //         key={index}
-  //         char={char}
-  //         setChars={setChars}
-  //         clickedCoordinates={clickedCoordinates}
-  //       />
-  //     );
-  //   } else {
-  //     return null;
-  //   }
-  // });
-
   const charsList = chars.map((char, index) => {
     return (
       <CharacterDisplayName

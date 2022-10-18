@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import CharacterList from './CharacterList';
 
@@ -9,7 +10,7 @@ import { GameContext } from '../Context/GameContext';
 const GameImage = ({ imageUrl }) => {
   const [clickedCoordinates, setClickedCoordinates] = useState({ x: 0, y: 0 });
   const [isClicked, click, unClick] = useClicked();
-  const { chars, setChars } = useContext(GameContext);
+  const { chars, setChars, isGameWon, resetGame } = useContext(GameContext);
   //   console.log(positionArr);
 
   const handleClick = (e) => {
@@ -32,6 +33,14 @@ const GameImage = ({ imageUrl }) => {
           setChars={setChars}
           clickedCoordinates={clickedCoordinates}
         />
+      )}
+      {isGameWon && (
+        <div className='game-won-card'>
+          <h1>You won !</h1>
+          <Link to='/where-s-waldo/leaderboard' onClick={resetGame}>
+            <h3>Check Leaderboard</h3>
+          </Link>
+        </div>
       )}
     </div>
   );

@@ -10,10 +10,12 @@ import imageList from '../other/imageList';
 const MainSection = () => {
   const [gameImage] = useState(imageList);
 
-  const { isGameStarted, setIsGameStarted } = useContext(GameContext);
+  const { isGameStarted, setIsGameStarted, setIsGameWon } =
+    useContext(GameContext);
 
   const handleClick = () => {
     setIsGameStarted(true);
+    setIsGameWon(false);
   };
 
   return (

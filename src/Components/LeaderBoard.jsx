@@ -1,24 +1,26 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-import { firestore } from '../firebase/config';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { GameContext } from '../Context/GameContext';
+import LeaderScore from './LeaderScore';
+import Header from './Header';
 
 const LeaderBoard = () => {
-  const leaderBoardRef = firestore.collection('leaderBoard');
-  const query = leaderBoardRef.orderBy('score', 'asc').limit(10);
-
-  const [scores] = useCollectionData(query, { idField: 'id' });
-  console.log(scores);
+  const { scores } = useContext(GameContext);
 
   return (
     <div className='leaderBoard'>
+      <Header />
       {!scores && <h1>Loading...</h1>}
       {scores &&
-        scores.map((score, index) => {
-          return <p key={index}>{score.score}</p>;
-        })}
+        scores.map((result, index) => (
+          <LeaderScore result={result} key={index} index={index} />
+        ))}
     </div>
   );
 };
+
+// LeaderBoard.propTypes = {
+//   scores: PropTypes.array.isRequired,
+// };
 
 export default LeaderBoard;

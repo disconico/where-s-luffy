@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import imageList from '../other/imageList';
 
 import { firestore } from '../firebase/config';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 const GameContext = createContext();
 
@@ -15,11 +16,12 @@ const GameContextProvider = ({ children }) => {
   const [currentScore, setCurrentScore] = useState(0);
 
   const positionRef = firestore.collection('characterList');
+  const leaderBoardRef = firestore.collection('leaderBoard');
 
-  // const maxScore = positionArr.length;
-  const maxScore = 1;
-  console.log(maxScore, 'max score');
-  console.log(currentScore, 'current score');
+  const queryScores = leaderBoardRef.orderBy('score', 'asc').limit(10);
+  const [scores] = useCollectionData(queryScores, { idField: 'id' });
+
+  const maxScore = positionArr.length;
 
   useEffect(() => {
     const fetchPosition = async () => {
@@ -29,32 +31,56 @@ const GameContextProvider = ({ children }) => {
     fetchPosition().catch(console.error);
   }, []);
 
+  const checkWin = () => {
+    if (currentScore === maxScore && maxScore !== 0) {
+      setIsGameWon(() => true);
+      console.log('Game is won !');
+    }
+  };
+
+  const checkScore = () => {
+    console.log(chars);
+    let newScore = 0;
+    chars.map((obj) => {
+      if (obj.found) {
+        return newScore++;
+      } else {
+        return null;
+      }
+    });
+    setCurrentScore(newScore);
+  };
+
   useEffect(() => {
-    const checkScore = () => {
-      chars.forEach((obj) => {
-        if (obj.found) {
-          setCurrentScore((prevScore) => prevScore + 1);
-        }
-      });
-    };
     checkScore();
   }, [chars]);
 
   useEffect(() => {
-    const checkWin = () => {
-      if (currentScore === maxScore) {
-        setIsGameWon(() => true);
-      }
-    };
     checkWin();
   }, [currentScore]);
 
-  useEffect(() => {
-    const setGameEnding = () => {
-      console.log('Game is over!');
-    };
-    setGameEnding();
-  }, [isGameWon]);
+  // useEffect(() => {
+  //   const checkWin = () => {
+  //     if (currentScore === maxScore) {
+  //       setIsGameWon(() => true);
+  //     }
+  //   };
+  //   checkWin();
+  // }, [currentScore]);
+
+  // useEffect(() => {
+  //   const setGameEnding = () => {
+  //     console.log('Game is over!');
+  //   };
+  //   setGameEnding();
+  // }, [isGameWon]);
+
+  const resetGame = () => {
+    setChars(imageList.itemList);
+    setIsGameWon(false);
+    setIsGameStarted(false);
+    setCurrentScore(0);
+  };
 
   return (
     <GameContext.Provider
@@ -63,8 +89,13 @@ const GameContextProvider = ({ children }) => {
         setIsGameStarted,
         chars,
         setChars,
+        resetGame,
         positionArr,
         isGameWon,
+        setIsGameWon,
+        scores,
+        currentScore,
+        maxScore,
       }}
     >
       {children}
