@@ -9,9 +9,14 @@ const LeaderScore = ({ result, index }) => {
   const profilePicURL = photoURL;
 
   return (
-    <div className={`leaderBoard ${index}`}>
+    <div className={`leaderBoard--rank ${index}`}>
       <h1>Rank : {index + 1}</h1>
-      <img src={profilePicURL || profilePicture} alt={''} />
+      <img
+        src={profilePicURL || profilePicture}
+        alt={''}
+        className='leader-pic'
+        referrerPolicy='no-referrer'
+      />
       <h3>{displayName}</h3>
       <p>{formatTime(score)}</p>
     </div>

@@ -22,7 +22,10 @@ function App() {
         path='/where-s-waldo/*'
         element={user ? <MainSection /> : <SignIn />}
       />
-      <Route path='/where-s-waldo/leaderboard' element={<LeaderBoard />} />
+      <Route
+        path='/where-s-waldo/leaderboard'
+        element={user ? <LeaderBoard /> : <SignIn />}
+      />
     </Routes>
   );
 }

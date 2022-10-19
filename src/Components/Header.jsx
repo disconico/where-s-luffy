@@ -8,6 +8,8 @@ import SignOut from './SignOut';
 import { GameContext } from '../Context/GameContext';
 import Timer from './Timer';
 import profilePicture from '../assets/profile_placeholder.png';
+import OPLogo from '../assets/OPLogo.png';
+import WaldoLogo from '../assets/WaldoLogo.png';
 
 const Header = () => {
   const [user] = useAuthState(auth);
@@ -17,21 +19,22 @@ const Header = () => {
   return (
     <header className='header'>
       <div className='header--left'>
-        <Link to='/where-s-waldo'>
-          <h1>Where is Luffy ?</h1>
+        <Link to='/where-s-waldo' className='home-link'>
+          <img src={OPLogo} className='header--left--logo'></img>
+          <h1 className='header--left--x'>X</h1>
+          <img src={WaldoLogo} className='header--left--logo'></img>
         </Link>
       </div>
-      <div className='header--middle'></div>
-      {isGameStarted ? (
-        <>
-          <p>
-            Current score : {currentScore}/{maxScore}
-          </p>
-          <Timer isGameStarted={isGameStarted} isGameWon={isGameWon} />
-        </>
-      ) : (
-        <div className='placeholder-timer'>coucou</div>
-      )}
+      <div className='header--middle'>
+        {isGameStarted && (
+          <>
+            <p>
+              Current score : {currentScore}/{maxScore}
+            </p>
+            <Timer isGameStarted={isGameStarted} isGameWon={isGameWon} />
+          </>
+        )}
+      </div>
       <div className='header--right'>
         <Link to='/where-s-waldo'>
           <button onClick={resetGame}>Restart Game</button>
@@ -40,11 +43,22 @@ const Header = () => {
           <button onClick={resetGame}>Leader board</button>
         </Link>
         <SignOut />
-        {user && <img src={user.photoURL} />}
-        {!user && <img src={profilePicture} />}
+        {user && (
+          <img
+            src={user.photoURL}
+            className='user-pic'
+            referrerPolicy='no-referrer'
+          />
+        )}
+        {!user && (
+          <img
+            src={profilePicture}
+            className='user-pic'
+            referrerPolicy='no-referrer'
+          />
+        )}
       </div>
     </header>
   );
 };
-
 export default Header;

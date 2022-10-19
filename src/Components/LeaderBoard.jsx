@@ -10,17 +10,15 @@ const LeaderBoard = () => {
   return (
     <div className='leaderBoard'>
       <Header />
-      {!scores && <h1>Loading...</h1>}
-      {scores &&
-        scores.map((result, index) => (
-          <LeaderScore result={result} key={index} index={index} />
-        ))}
+      <div className='score-board'>
+        {!scores && <h1>Loading...</h1>}
+        {scores &&
+          scores.map((result, index) => (
+            <LeaderScore result={result} key={index} index={index} />
+          ))}
+      </div>
     </div>
   );
 };
-
-// LeaderBoard.propTypes = {
-//   scores: PropTypes.array.isRequired,
-// };
 
 export default LeaderBoard;
