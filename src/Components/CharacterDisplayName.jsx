@@ -45,9 +45,12 @@ const CharacterDisplayName = ({ char, setChars, clickedCoordinates }) => {
   };
 
   return (
-    <li onClick={handleClick} className={char.id}>
-      {displayName} {found ? '✅' : '❌'}
-    </li>
+    <div className='display-name'>
+      <p onClick={handleClick} className={char.id}>
+        {displayName}{' '}
+      </p>
+      <p> {found ? '✅' : '❌'}</p>
+    </div>
   );
 };
 

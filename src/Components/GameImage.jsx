@@ -25,7 +25,7 @@ const GameImage = ({ imageUrl }) => {
 
   return (
     <div className='game-image' onClick={handleClick}>
-      <img src={imageUrl} className='game-image--img' />
+      <img src={imageUrl} className='game-image--img' draggable='false' />
       {isClicked && (
         <CharacterList
           coords={clickedCoordinates}
