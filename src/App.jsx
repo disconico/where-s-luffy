@@ -14,16 +14,10 @@ function App() {
 
   return (
     <Routes>
+      <Route path='/' element={user ? <MainSection /> : <SignIn />} />
+      <Route path='/*' element={user ? <MainSection /> : <SignIn />} />
       <Route
-        path='/where-s-waldo'
-        element={user ? <MainSection /> : <SignIn />}
-      />
-      <Route
-        path='/where-s-waldo/*'
-        element={user ? <MainSection /> : <SignIn />}
-      />
-      <Route
-        path='/where-s-waldo/leaderboard'
+        path='/leaderboard'
         element={user ? <LeaderBoard /> : <SignIn />}
       />
     </Routes>

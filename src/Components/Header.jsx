@@ -19,7 +19,7 @@ const Header = () => {
   return (
     <header className='header'>
       <div className='header--left'>
-        <Link to='/where-s-waldo' className='home-link'>
+        <Link to='/' className='home-link'>
           <img src={OPLogo} className='header--left--logo'></img>
           <h1 className='header--left--x'>X</h1>
           <img src={WaldoLogo} className='header--left--logo'></img>
@@ -36,10 +36,10 @@ const Header = () => {
         )}
       </div>
       <div className='header--right'>
-        <Link to='/where-s-waldo'>
+        <Link to='/'>
           <button onClick={resetGame}>Restart Game</button>
         </Link>
-        <Link to='/where-s-waldo/leaderboard'>
+        <Link to='/leaderboard'>
           <button onClick={resetGame}>Leader board</button>
         </Link>
         <SignOut />
